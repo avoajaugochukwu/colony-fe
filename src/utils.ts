@@ -1,7 +1,6 @@
 import { Wallet, utils } from "ethers";
 import { InfuraProvider } from "ethers/providers";
 import {
-  getLogs,
   ColonyRole,
   getColonyNetworkClient,
   Network,
@@ -12,7 +11,7 @@ import {
   MAINNET_NETWORK_ADDRESS,
 } from "./contants";
 
-import { EventLog, ColonyClient, PayoutClaimed } from './types'
+import { EventLogType, ColonyClientType, PayoutClaimedType } from './types'
 
 // Get a new Infura provider (don't worry too much about this)
 const provider = new InfuraProvider();
@@ -23,7 +22,7 @@ const wallet = Wallet.createRandom();
 // Connect your wallet to the provider
 const connectedWallet = wallet.connect(provider);
 
-export const getColonyClient = async (): Promise<ColonyClient> => {
+export const getColonyClient = async (): Promise<ColonyClientType> => {
   const networkClient = await getColonyNetworkClient(
     Network.Mainnet,
     connectedWallet,
@@ -38,7 +37,7 @@ export const getColonyClient = async (): Promise<ColonyClient> => {
   return colonyClient;
 };
 
-export const getUserAddress = async (singleLog: PayoutClaimed, colonyClient: ColonyClient) => {
+export const getUserAddress = async (singleLog: PayoutClaimedType, colonyClient: ColonyClientType) => {
   const humanReadableFundingPotId: string = new utils.BigNumber(
     singleLog.values.fundingPotId
   ).toString();
@@ -54,7 +53,7 @@ export const getUserAddress = async (singleLog: PayoutClaimed, colonyClient: Col
   return userAddress;
 };
 
-export const getAmount = (singleLog: PayoutClaimed, colonyClient: ColonyClient) => {
+export const getAmount = (singleLog: PayoutClaimedType) => {
   const wei = new utils.BigNumber(10);
 
   const humanReadableAmount = new utils.BigNumber(singleLog.values.amount);
@@ -64,7 +63,7 @@ export const getAmount = (singleLog: PayoutClaimed, colonyClient: ColonyClient) 
   return convertedAmount.toString();
 };
 
-export const getDate = async (singleLog: EventLog) => {
+export const getDate = async (singleLog: EventLogType) => {
   const provider = new InfuraProvider();
   // console.log(singleLog.blockHash)
   const logTime = await getBlockTime(provider, singleLog.blockHash);

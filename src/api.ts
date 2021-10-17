@@ -1,14 +1,14 @@
 // @ts-nocheck
-import {
-  getLogs,
-  ColonyRole,
-  getColonyNetworkClient,
-  Network,
-} from "@colony/colony-js";
-import { Wallet, utils } from "ethers";
+import { getLogs } from "@colony/colony-js";
 import { getColonyClient, getUserAddress, getAmount, getDate } from "./utils";
 
-import { EventLog, PayoutClaimed, ColonyInitialised, ColonyRoleSet } from "./types";
+import {
+  EventLogType,
+  PayoutClaimedType,
+  ColonyInitialisedType,
+  ColonyRoleSetType,
+  DomainAddedType
+} from "./types";
 
 /* 
   @Note: I choose to create objects for merging raw logs and parsed logs, 
@@ -19,9 +19,9 @@ import { EventLog, PayoutClaimed, ColonyInitialised, ColonyRoleSet } from "./typ
 export const getPayoutClaimed = async () => {
   const colonyClient = await getColonyClient();
   const eventFilter = colonyClient.filters.PayoutClaimed(null, null, null);
-  const eventLogs: EventLog[] = await getLogs(colonyClient, eventFilter);
+  const eventLogs: EventLogType[] = await getLogs(colonyClient, eventFilter);
 
-  const parsedLogs: PayoutClaimed[] = eventLogs.map((event) =>
+  const parsedLogs: PayoutClaimedType[] = eventLogs.map((event) =>
     colonyClient.interface.parseLog(event)
   );
 
@@ -40,7 +40,7 @@ export const getPayoutClaimed = async () => {
   );
 
   const convertedAmounts: string[] = parsedLogs.map((parsedLog) =>
-    getAmount(parsedLog, colonyClient)
+    getAmount(parsedLog)
   );
 
   // console.log(a)
@@ -64,9 +64,9 @@ export const getPayoutClaimed = async () => {
 export const getColonyInitialised = async () => {
   const colonyClient = await getColonyClient();
   const eventFilter = colonyClient.filters.ColonyInitialised(null, null);
-  const eventLogs: EventLog[] = await getLogs(colonyClient, eventFilter);
+  const eventLogs: EventLogType[] = await getLogs(colonyClient, eventFilter);
 
-  const parsedLogs: ColonyInitialised[] = eventLogs.map((event) =>
+  const parsedLogs: ColonyInitialisedType[] = eventLogs.map((event) =>
     colonyClient.interface.parseLog(event)
   );
 
@@ -90,9 +90,9 @@ export const getColonyRoleSet = async () => {
     null,
     null
   );
-  const eventLogs: EventLog[] = await getLogs(colonyClient, eventFilter);
+  const eventLogs: EventLogType[] = await getLogs(colonyClient, eventFilter);
 
-  const parsedLogs: ColonyRoleSet[] = eventLogs.map((event) =>
+  const parsedLogs: ColonyRoleSetType[] = eventLogs.map((event) =>
     colonyClient.interface.parseLog(event)
   );
 
@@ -111,9 +111,9 @@ export const getDomainAdded = async () => {
   const colonyClient = await getColonyClient();
 
   const eventFilter = colonyClient.filters.DomainAdded(null);
-  const eventLogs = await getLogs(colonyClient, eventFilter);
+  const eventLogs: EventLogType[] = await getLogs(colonyClient, eventFilter);
 
-  const parsedLogs = eventLogs.map((event) =>
+  const parsedLogs: DomainAddedType[] = eventLogs.map((event) =>
     colonyClient.interface.parseLog(event)
   );
 
