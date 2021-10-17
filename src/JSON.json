@@ -21,3 +21,17 @@
   },
   "userAddress": "0xa2a28603724B342ae3b34D5bf04fbb7372b0d849"
 }
+
+
+{
+  "name": "ColonyInitialised",
+  "signature": "ColonyInitialised(address,address)",
+  "topic": "0x7b4b87fc2f7a012d33086b285b1def5cd0ed055e2b03ff6b6b4c40bcb337427b",
+  "values": {
+      "0": "0x5346D0f80e2816FaD329F2c140c870ffc3c3E2Ef",
+      "1": "0x0dd7b8f3d1fa88FAbAa8a04A0c7B52FC35D4312c",
+      "colonyNetwork": "0x5346D0f80e2816FaD329F2c140c870ffc3c3E2Ef",
+      "token": "0x0dd7b8f3d1fa88FAbAa8a04A0c7B52FC35D4312c",
+      "length": 2
+  }
+}

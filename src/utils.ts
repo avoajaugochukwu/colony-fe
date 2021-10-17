@@ -51,3 +51,5 @@ export const getUserAddress = async (singleLog, colonyClient) => {
 
   return userAddress;
 };
+
+
