@@ -1,23 +1,5 @@
 import { BigNumberish } from "ethers/utils/bignumber";
-
-export type ColonyClientType = {
-  getFundingPot: Function;
-  getPayment: Function;
-  // interface: Function;
-};
-
-export type EventLogType = {
-  blockNumber: number;
-  blockHash: string;
-  transactionIndex: number;
-  removed: boolean;
-  address: string;
-  data: string;
-  topics: string | string[];
-  transactionHash: string;
-  logIndex: number;
-};
-
+import { Log } from "ethers/providers";
 // using type here even though we have some repeated properties, because extends doesn't
 // show a nice pop up
 export type PayoutClaimedType = {
@@ -28,7 +10,7 @@ export type PayoutClaimedType = {
     0: Hex;
     1: string;
     2: Hex;
-    fundingPotId: BigNumberish;
+    fundingPotId: string;
     token: string;
     amount: BigNumberish;
     length: number;
@@ -75,9 +57,23 @@ export type DomainAddedType = {
     0: Hex;
     domainId: Hex;
     length: number;
-  }
-}
+  };
+};
 
 export type Hex = {
   _hex: string;
+};
+
+export type DateType = {
+  rawDate: Date;
+  displayDate: string;
+};
+
+export type AllEventsType = {
+  eventLog: Log;
+  parsedLog:
+    | PayoutClaimedType
+    | ColonyInitialisedType
+    | ColonyRoleSetType
+    | DomainAddedType;
 };

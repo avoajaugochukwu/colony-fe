@@ -1,17 +1,20 @@
 import { Wallet, utils } from "ethers";
-import { InfuraProvider } from "ethers/providers";
+import { InfuraProvider, Log } from "ethers/providers";
 import {
   ColonyRole,
   getColonyNetworkClient,
   Network,
   getBlockTime,
+  ColonyClient,
 } from "@colony/colony-js";
 import {
   MAINNET_BETACOLONY_ADDRESS,
   MAINNET_NETWORK_ADDRESS,
 } from "./contants";
 
-import { EventLogType, ColonyClientType, PayoutClaimedType } from './types'
+import { PayoutClaimedType, ColonyRoleSetType, DateType } from "./types";
+
+import blockies from "./blockies";
 
 // Get a new Infura provider (don't worry too much about this)
 const provider = new InfuraProvider();
@@ -22,7 +25,7 @@ const wallet = Wallet.createRandom();
 // Connect your wallet to the provider
 const connectedWallet = wallet.connect(provider);
 
-export const getColonyClient = async (): Promise<ColonyClientType> => {
+export const getColonyClient = async (): Promise<ColonyClient> => {
   const networkClient = await getColonyNetworkClient(
     Network.Mainnet,
     connectedWallet,
@@ -37,11 +40,14 @@ export const getColonyClient = async (): Promise<ColonyClientType> => {
   return colonyClient;
 };
 
-export const getUserAddress = async (singleLog: PayoutClaimedType, colonyClient: ColonyClientType) => {
+export const getUserAddress = async (
+  singleLog: PayoutClaimedType,
+  colonyClient: ColonyClient
+) => {
   const humanReadableFundingPotId: string = new utils.BigNumber(
     singleLog.values.fundingPotId
   ).toString();
-    
+
   const { associatedTypeId } = await colonyClient.getFundingPot(
     humanReadableFundingPotId
   );
@@ -63,10 +69,22 @@ export const getAmount = (singleLog: PayoutClaimedType) => {
   return convertedAmount.toString();
 };
 
-export const getDate = async (singleLog: EventLogType) => {
+export const getDate = async (eventLogs: Log[]) => {
+  const eventDates: DateType[] = await Promise.all(
+    eventLogs.map(async (eventLog) => {
+      const eventDate = await calculateDate(eventLog);
+      return eventDate;
+    })
+  );
+
+  return eventDates;
+};
+
+export const calculateDate = async (singleLog: Log) => {
   const provider = new InfuraProvider();
   // console.log(singleLog.blockHash)
-  const logTime = await getBlockTime(provider, singleLog.blockHash);
+  const blockHash = singleLog.blockHash as string;
+  const logTime = await getBlockTime(provider, blockHash);
 
   const months = [
     "Jan",
@@ -84,11 +102,34 @@ export const getDate = async (singleLog: EventLogType) => {
   ];
 
   const logDate = new Date(logTime);
-  
+
   const getDate = logDate.getDate();
   const getMonth = months[logDate.getMonth()];
 
-  const newDate = `${getDate} ${getMonth}`
+  const newDate = `${getDate} ${getMonth}`;
 
-  return newDate;
+  const date = {
+    rawDate: logDate,
+    displayDate: newDate,
+  };
+
+  return date;
+};
+
+export const getRole = (parsedLogs: ColonyRoleSetType[]) => {
+  const roles: string[] = parsedLogs.map(
+    (parsedLog) => ColonyRole[parsedLog.values.role]
+  );
+
+  return roles;
+};
+
+export const getIcon = (seed?: string, size?: number) => {
+  const icon = blockies({
+    size: 5,
+    scale: size ? Math.floor(size / 5) : 10,
+    seed,
+  });
+
+  return icon;
 };

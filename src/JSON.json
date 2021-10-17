@@ -133,3 +133,34 @@
   "transactionHash": "0xd920e0013f9b0e2a66b5c79adf34ad175f14b633469026dbcb022ab408f90753",
   "logIndex": 30
 }
+
+
+
+{
+  "name": "PayoutClaimed",
+  "signature": "PayoutClaimed(uint256,address,uint256)",
+  "topic": "0xe97cee5a4c0549d3fdc81e322b718ddf0aeb3418ec87dce4f9a7fb28d117c312",
+  "values": {
+      "0": {
+          "_hex": "0x04"
+      },
+      "1": "0x0dd7b8f3d1fa88FAbAa8a04A0c7B52FC35D4312c",
+      "2": {
+          "_hex": "0x054645706382facf91"
+      },
+      "fundingPotId": {
+          "_hex": "0x04"
+      },
+      "token": "0x0dd7b8f3d1fa88FAbAa8a04A0c7B52FC35D4312c",
+      "amount": {
+          "_hex": "0x054645706382facf91"
+      },
+      "length": 3
+  },
+  "userAddress": "0xa2a28603724B342ae3b34D5bf04fbb7372b0d849",
+  "convertedAmount": "97",
+  "date": {
+      "rawDate": "2020-02-10T19:14:35.000Z",
+      "displayDate": "10 Feb"
+  }
+}
