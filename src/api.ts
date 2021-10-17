@@ -1,29 +1,37 @@
-import { Wallet, utils } from 'ethers';
-import { InfuraProvider } from 'ethers/providers';
-import { getLogs, ColonyRole, getColonyNetworkClient, Network } from '@colony/colony-js';
+import {
+  getLogs,
+  ColonyRole,
+  getColonyNetworkClient,
+  Network,
+} from "@colony/colony-js";
+import { Wallet, utils } from "ethers";
+import { getColonyClient, getUserAddress } from "./utils";
 
-const MAINNET_NETWORK_ADDRESS = `0x5346D0f80e2816FaD329F2c140c870ffc3c3E2Ef`;
-const MAINNET_BETACOLONY_ADDRESS = `0x869814034d96544f3C62DE2aC22448ed79Ac8e70`;
+export const getPayoutClaimed = async () => {
+  const colonyClient = await getColonyClient();
 
-// Get a new Infura provider (don't worry too much about this)
-const provider = new InfuraProvider();
+  const eventFilter = colonyClient.filters.PayoutClaimed(null, null, null);
 
-// Get a random wallet
-// You don't really need control over it, since you won't be firing any trasactions out of it
-const wallet = Wallet.createRandom();
-// Connect your wallet to the provider
-const connectedWallet = wallet.connect(provider);
+  const eventLogs = await getLogs(colonyClient, eventFilter);
 
-const getColonyClient = async () => {
-  const networkClient = await getColonyNetworkClient(
-    Network.Mainnet,
-    connectedWallet,
-    {
-      networkAddress: MAINNET_NETWORK_ADDRESS
-    },
+  const parsedLogs = eventLogs.map((event) =>
+    colonyClient.interface.parseLog(event)
   );
 
-  const colonyClient = await networkClient.getColonyClient(MAINNET_BETACOLONY_ADDRESS);
+  const userAddresses = await Promise.all(
+    parsedLogs.map(async (parsedLog) => {
+      const userAddress = await getUserAddress(parsedLog, colonyClient);
+      return userAddress;
+    })
+  );
 
-  console.log(colonyClient)
-}
+  const parsedLogsWithUserAddress = parsedLogs.map((p, index) => {
+    return { ...p, userAddress: userAddresses[index] };
+  });
+
+  const combined = eventLogs.map((p, index) => {
+    return { eventLog: p, parsedLog: parsedLogsWithUserAddress[index] };
+  });
+
+  // console.log(combined)
+};
