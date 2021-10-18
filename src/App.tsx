@@ -20,13 +20,15 @@ function App() {
   return (
     <div className="App">
       <div className="App-header" />
-      
+
       {loading && <h1 className="Loading">Loading...</h1>}
       {!loading && (
         <div>
           <EventsList eventList={events as AllEventType[]} />
         </div>
       )}
+      
+      <div className="App-header" />
     </div>
   );
 }

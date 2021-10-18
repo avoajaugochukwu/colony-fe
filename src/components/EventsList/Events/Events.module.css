@@ -2,10 +2,6 @@
   border-bottom: 1px rgb(184, 180, 180) solid;
 }
 
-.ListItemWrapper:last-child {
-  /* border: none; */
-}
-
 .ListItem {
   height: 90;
   padding: 26px 20px;
