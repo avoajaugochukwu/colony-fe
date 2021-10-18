@@ -1,3 +1,4 @@
+//@ts-nocheck
 /* eslint-disable no-bitwise, no-plusplus, prefer-destructuring, no-multi-assign */
 // Forked from https://github.com/alexvandesande/blockies
 // The random number is a js implementation of the Xorshift PRNG
@@ -12,7 +13,7 @@ type IconOptions = {
   spotcolor?: string;
 };
 
-function seedrand(seed: string) {
+function seedrand(seed) {
   for (let i = 0; i < randseed.length; i++) {
     randseed[i] = 0;
   }
@@ -46,7 +47,7 @@ function createColor() {
   return color;
 }
 
-function createImageData(size: number) {
+function createImageData(size) {
   const width = size; // Only support square icons for now
   const height = size;
 
@@ -74,7 +75,7 @@ function createImageData(size: number) {
   return data;
 }
 
-function createCanvas(imageData: string | any[], color: string | CanvasGradient | CanvasPattern, scale: number, bgcolor: string | CanvasGradient | CanvasPattern, spotcolor: string | CanvasGradient | CanvasPattern) {
+function createCanvas(imageData, color, scale, bgcolor, spotcolor) {
   const c = document.createElement('canvas');
   const width = Math.sqrt(imageData.length);
   c.width = c.height = width * scale;

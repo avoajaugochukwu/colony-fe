@@ -10,13 +10,18 @@ export type PayoutClaimedType = {
     0: Hex;
     1: string;
     2: Hex;
-    fundingPotId: string;
+    fundingPotId: BigNumberish
     token: string;
     amount: BigNumberish;
     length: number;
+    domainId?: Hex;
   };
-  userAddress?: string;
-  convertedAmount?: string;
+  userAddress: string;
+  convertedAmount: string;
+  date: DateType;
+  roleText?: string;
+  tokenSymbol: string;
+  newFundingPotId: string;
 };
 
 export type ColonyInitialisedType = {
@@ -29,7 +34,15 @@ export type ColonyInitialisedType = {
     colonyNetwork: string;
     token: string;
     length: number;
+    domainId?: Hex;
+    fundingPotId?: Hex;
   };
+  date: DateType;
+  userAddress?: string;
+  roleText?: string;
+  tokenSymbol?: string;
+  convertedAmount?: string;
+  newFundingPotId?: string;
 };
 
 export type ColonyRoleSetType = {
@@ -46,7 +59,14 @@ export type ColonyRoleSetType = {
     role: number;
     setTo: true;
     length: number;
+    fundingPotId?: Hex;
   };
+  date: DateType;
+  userAddress?: string;
+  roleText: string;
+  tokenSymbol?: string;
+  convertedAmount?: string;
+  newFundingPotId?: string;
 };
 
 export type DomainAddedType = {
@@ -57,7 +77,14 @@ export type DomainAddedType = {
     0: Hex;
     domainId: Hex;
     length: number;
+    fundingPotId?: Hex;
   };
+  date: DateType;
+  userAddress?: string;
+  roleText?: string;
+  tokenSymbol?: string;
+  convertedAmount?: string;
+  newFundingPotId?: string;
 };
 
 export type Hex = {
@@ -69,7 +96,7 @@ export type DateType = {
   displayDate: string;
 };
 
-export type AllEventsType = {
+export type AllEventType = {
   eventLog: Log;
   parsedLog:
     | PayoutClaimedType

@@ -2,6 +2,7 @@
 import { getLogs } from "@colony/colony-js";
 import { Log } from 'ethers/providers';
 import { getColonyClient, getUserAddress, getAmount, getDate, getRole } from "./utils";
+import { TokenSymbol } from './contants'
 
 import {
   PayoutClaimedType,
@@ -9,7 +10,7 @@ import {
   ColonyRoleSetType,
   DomainAddedType,
   DateType,
-  AllEventsType
+  AllEventType
 } from "./types";
 
 // Log is not exported from colony-js
@@ -47,6 +48,8 @@ export const getPayoutClaimed = async () => {
       userAddress: userAddresses[index],
       convertedAmount: convertedAmounts[index],
       date: eventsDate[index],
+      tokenSymbol: TokenSymbol[p.values.token],
+      newFundingPotId: p.values.fundingPotId._hex
     };
   });
 
@@ -160,7 +163,7 @@ export const getDomainAdded = async () => {
   return combined;
 };
 
-export const getAllEvents = async (): Promise<AllEventsType> => {
+export const getAllEvents = async (): Promise<AllEventType[]> => {
   const paymentClaimed = await getPayoutClaimed()
   const colonyInitialised =  await getColonyInitialised()
   const domainAdded = await getDomainAdded()
@@ -168,7 +171,7 @@ export const getAllEvents = async (): Promise<AllEventsType> => {
 
   const allEvents = [...paymentClaimed, ... colonyRoleSet, ... domainAdded, ...colonyInitialised]
 
-  const sortedEvents = allEvents.sort((a, b) => b.parsedLog.date.rawDate.valueOf() - a.parsedLog.date.rawDate.valueOf()) 
+  const sortedEvents: AllEventType[] = allEvents.sort((a, b) => b.parsedLog.date.rawDate.valueOf() - a.parsedLog.date.rawDate.valueOf()) 
   // console.log(sortedEvents)
   return sortedEvents
 }
