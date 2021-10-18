@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { getPayoutClaimed, getAllEvents } from "./api";
+import { getAllEvents } from "./api";
 import "./App.css";
 
 import { AllEventType } from "./types";
 
-import EventList from "./components/EventList/EventList";
+import EventsList from "./components/EventsList/EventsList";
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -19,11 +19,12 @@ function App() {
 
   return (
     <div className="App">
-      {loading && <h1>Loading</h1>}
+      <div className="App-header" />
+      
+      {loading && <h1 className="Loading">Loading...</h1>}
       {!loading && (
         <div>
-          <EventList eventList={events as AllEventType[]} />
-          <h1>Not Loading</h1>
+          <EventsList eventList={events as AllEventType[]} />
         </div>
       )}
     </div>

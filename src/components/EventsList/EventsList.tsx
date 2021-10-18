@@ -2,15 +2,20 @@ import React from 'react'
 import { AllEventType } from '../../types';
 
 import { ColonyInitialised, ColonyRoleSet, DomainAdded, PayoutClaimed } from './Events'
+import styles from './EventsList.module.css';
 
-interface EventListProp {
+
+interface EventListsProp {
   eventList: AllEventType[]
 }
 
-const EventList: React.FC<EventListProp> = ({ eventList }) => {
+const EventsList: React.FC<EventListsProp> = ({ eventList }) => {
   
   return (
-    <div>
+    <div className={styles.Container}>
+      
+      <div className={styles.Eventlist}>
+      
       {
         eventList && 
         eventList.map((event, key) => 
@@ -24,15 +29,10 @@ const EventList: React.FC<EventListProp> = ({ eventList }) => {
         </div>
         )
       }
-
-{/* ColonyRoleSet */}
-{/* DomainAdded */}
-{/* ColonyInitialised */}
-{/* PayoutClaimed */}
-
-
+      
+      </div>
     </div>
   )
 }
 
-export default EventList
+export default EventsList

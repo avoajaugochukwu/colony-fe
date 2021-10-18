@@ -169,7 +169,7 @@ export const getAllEvents = async (): Promise<AllEventType[]> => {
   const domainAdded = await getDomainAdded()
   const colonyRoleSet = await getColonyRoleSet()
 
-  const allEvents = [...paymentClaimed, ... colonyRoleSet, ... domainAdded, ...colonyInitialised]
+  const allEvents = [...paymentClaimed, ...colonyRoleSet, ...domainAdded, ...colonyInitialised]
 
   const sortedEvents: AllEventType[] = allEvents.sort((a, b) => b.parsedLog.date.rawDate.valueOf() - a.parsedLog.date.rawDate.valueOf()) 
   // console.log(sortedEvents)

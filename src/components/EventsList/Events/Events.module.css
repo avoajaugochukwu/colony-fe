@@ -1,0 +1,47 @@
+.ListItemWrapper {
+  border-bottom: 1px rgb(184, 180, 180) solid;
+}
+
+.ListItemWrapper:last-child {
+  /* border: none; */
+}
+
+.ListItem {
+  height: 90;
+  padding: 26px 20px;
+  background-color: white;
+  border-radius: 6px;
+  display: flex;
+}
+
+
+
+.ListItemDetails {
+  margin-left: 20px;
+}
+.ListItemDescription {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 600px;
+}
+.ListItemWrapper:hover .ListItemDescription {
+  white-space: pre-wrap;
+  text-overflow: initial;
+  overflow: hidden;
+}
+
+.ListItem:hover {
+  background-color: #e9f6ff;
+}
+
+.Date {
+  color: rgb(94, 94, 94);
+  margin-bottom: 0px;
+}
+
+.Bold {
+  font-weight: 700;
+}
