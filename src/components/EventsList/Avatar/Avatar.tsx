@@ -1,16 +1,17 @@
 import React from 'react'
 
-import blockies from '../../../blockies'
+import Blockies from "ethereum-blockies"
 
 import styles from './Avatar.module.css';
+
 
 interface AvatarProps {
   address: string;
 }
 
 const Avatar: React.FC<AvatarProps> = ({ address }) => {
-
-  const canvasElm = blockies({
+  
+  const canvasElm = Blockies.create({
     size: 5,
     scale: 100 ? Math.floor(100 / 5) : 10,
     seed: address
