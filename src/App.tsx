@@ -8,12 +8,12 @@ import EventsList from "./components/EventsList/EventsList";
 
 function App() {
   const [loading, setLoading] = useState(false);
-  const [events, setEvents] = useState<AllEventType[]>();
+  const [events, setEvents] = useState<AllEventType[]>([] as AllEventType[]);
 
   useEffect(() => {
     setLoading(true);
     getAllEvents()
-      .then((data) => setEvents(data as AllEventType[]))
+      .then((data) => setEvents(data))
       .then(() => setLoading(false));
   }, []);
 
@@ -24,7 +24,7 @@ function App() {
       {loading && <h1 className="Loading">Loading...</h1>}
       {!loading && (
         <div>
-          <EventsList eventList={events as AllEventType[]} />
+          <EventsList eventList={events} />
         </div>
       )}
       
